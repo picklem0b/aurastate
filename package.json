@@ -1,0 +1,28 @@
+{
+  "name": "aurastate",
+  "version": "1.0.0-alpha",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "db:push": "cd packages/database && npx prisma db push",
+    "db:migrate": "cd packages/database && npx prisma migrate dev",
+    "db:studio": "cd packages/database && npx prisma studio",
+    "db:seed": "cd packages/database && npx ts-node seed.ts"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

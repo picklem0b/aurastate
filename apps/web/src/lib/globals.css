@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void:     #050507;
+  --color-abyss:    #0A0A0F;
+  --color-cavern:   #111118;
+  --color-surface:  #1A1A24;
+  --color-elevated: #22222F;
+  --color-border:   #2A2A3A;
+
+  --color-solar-400: #FFC200;
+  --color-solar-300: #FFD11A;
+  --color-solar-200: #FFE066;
+
+  --color-aura-blue:   #4F8EF7;
+  --color-aura-purple: #8B5CF6;
+  --color-aura-green:  #10B981;
+  --color-aura-amber:  #F59E0B;
+  --color-aura-red:    #EF4444;
+
+  --color-ink-primary:   #F0F0F8;
+  --color-ink-secondary: #9090A8;
+  --color-ink-muted:     #55556A;
+  --color-ink-disabled:  #333344;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar         { width: 4px; height: 4px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: var(--color-border); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink-muted); }
+
+/* ── Selection ─────────────────────────────────────────────── */
+::selection {
+  background: rgba(255,194,0,0.25);
+  color: var(--color-ink-primary);
+}
+
+/* ── Focus visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-solar-400);
+  outline-offset: 2px;
+}

@@ -3,150 +3,158 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-// ── Users ─────────────────────────────────────────────────────
+// ── Users ─────────────────────────────────────────────────
 model User {
-  id           String   @id                  // Clerk user ID
-  fullName     String
-  username     String   @unique
-  email        String   @unique
-  region       String   @default("ZA_WC")
-  province     String   @default("WC")
-  grade        Int      @default(10)
-  stream       String   @default("science")
-  isOnboarded  Boolean  @default(false)
-  auraColor    String   @default("blue")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  subjects     UserSubject[]
-  weakPoints   WeakPoint[]
-  focusSessions FocusSession[]
-  quizAttempts QuizAttempt[]
-  memberships  RoomMember[]
-  messages     Message[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId     String   @unique
+  email       String   @unique
+  username    String   @unique
+  fullName    String
+  region      String   @default("ZA_WC")
+  province    String   @default("WC")
+  grade       Int      @default(10)
+  stream      String   @default("science")
+  language    String   @default("en")
+  isOnboarded Boolean  @default(false)
+  auraColor   String   @default("blue")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("users")
 }
 
-// ── Subjects & Mastery ────────────────────────────────────────
+// ── User Subjects ─────────────────────────────────────────
 model UserSubject {
-  id          Int      @id @default(autoincrement())
-  userId      String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  subjectCode String
   subjectName String
   masteryPct  Float    @default(0)
   isMandatory Boolean  @default(false)
   createdAt   DateTime @default(now())
 
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  concepts    ConceptMastery[]
-
-  @@unique([userId, subjectName])
+  @@unique([userId, subjectCode])
+  @@index([userId])
   @@map("user_subjects")
 }
 
-model ConceptMastery {
-  id          Int      @id @default(autoincrement())
-  subjectId   Int
-  concept     String
-  masteryPct  Float    @default(50)
-  attempts    Int      @default(0)
-  isFlagged   Boolean  @default(false)
-  updatedAt   DateTime @updatedAt
-
-  subject     UserSubject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-
-  @@unique([subjectId, concept])
-  @@map("concept_mastery")
-}
-
+// ── Weak Points ───────────────────────────────────────────
 model WeakPoint {
-  id         Int      @id @default(autoincrement())
-  userId     String
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
   subject    String
   concept    String
   masteryPct Float    @default(0)
-  resolved   Boolean  @default(false)
   flaggedAt  DateTime @default(now())
+  resolved   Boolean  @default(false)
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
   @@map("weak_points")
 }
 
-// ── Focus Sessions ────────────────────────────────────────────
+// ── Focus Sessions ────────────────────────────────────────
 model FocusSession {
-  id            String   @id @default(cuid())
-  userId        String
-  subject       String
-  elapsedSecs   Int      @default(0)
-  xpEarned      Int      @default(0)
-  xpLost        Int      @default(0)
-  meltdowns     Int      @default(0)
-  voided        Boolean  @default(false)
-  startedAt     DateTime @default(now())
-  endedAt       DateTime?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @db.ObjectId
+  subject     String
+  elapsedSecs Int       @default(0)
+  xpEarned    Int       @default(0)
+  xpLost      Int       @default(0)
+  meltdowns   Int       @default(0)
+  voided      Boolean   @default(false)
+  startedAt   DateTime  @default(now())
+  endedAt     DateTime?
 
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
   @@map("focus_sessions")
 }
 
-// ── Quiz Attempts ─────────────────────────────────────────────
-model QuizAttempt {
-  id          String   @id @default(cuid())
-  userId      String
-  subject     String
-  topic       String
-  score       Int
-  total       Int
-  masteryPct  Float
-  weakConcepts String[]
-  takenAt     DateTime @default(now())
+// ── Streaks ───────────────────────────────────────────────
+model Streak {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   @unique @db.ObjectId
+  currentStreak  Int      @default(0)
+  longestStreak  Int      @default(0)
+  lastStudyDate  String
+  totalStudyDays Int      @default(0)
+  updatedAt      DateTime @updatedAt
 
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@map("quiz_attempts")
+  @@map("streaks")
 }
 
-// ── Social / War Rooms ────────────────────────────────────────
-model Room {
-  id          String   @id @default(cuid())
+// ── Curriculum Topics ─────────────────────────────────────
+model CurriculumTopic {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  subjectCode String
+  grade       Int
+  topicName   String
+  topicIndex  Int
+  examWeight  Float  @default(1.0)
+  description String @default("")
+
+  @@unique([subjectCode, grade, topicName])
+  @@index([subjectCode, grade])
+  @@map("curriculum_topics")
+}
+
+// ── Study Materials ───────────────────────────────────────
+model StudyMaterial {
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  topicId          String @db.ObjectId
+  title            String
+  summary          String
+  formulas         String @default("[]")
+  examples         String @default("[]")
+  examTips         String @default("[]")
+  difficultyRating Float  @default(0)
+  pastPaperLinks   String @default("[]")
+
+  @@index([topicId])
+  @@map("study_materials")
+}
+
+// ── Study Progress ────────────────────────────────────────
+model StudyProgress {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  topicId    String   @db.ObjectId
+  completed  Boolean  @default(false)
+  quizScore  Int?
+  lastStuded DateTime @default(now())
+
+  @@unique([userId, topicId])
+  @@index([userId])
+  @@map("study_progress")
+}
+
+// ── War Rooms ─────────────────────────────────────────────
+model WarRoom {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String?
+  subjectCode String?
+  grade       Int?
   isPublic    Boolean  @default(true)
-  subject     String?
   createdAt   DateTime @default(now())
 
-  members     RoomMember[]
-  messages    Message[]
-  @@map("rooms")
+  @@map("war_rooms")
 }
 
-model RoomMember {
-  id        Int      @id @default(autoincrement())
+// ── War Room Messages ─────────────────────────────────────
+model WarRoomMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  roomId    String   @db.ObjectId
   userId    String
-  roomId    String
-  role      String   @default("member")  // member | moderator | owner
-  joinedAt  DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  @@unique([userId, roomId])
-  @@map("room_members")
-}
-
-model Message {
-  id        String   @id @default(cuid())
-  userId    String
-  roomId    String
   content   String
   threadId  String?
   createdAt DateTime @default(now())
   editedAt  DateTime?
   deleted   Boolean  @default(false)
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  @@map("messages")
+  @@index([roomId])
+  @@map("war_room_messages")
 }

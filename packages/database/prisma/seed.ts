@@ -171,3 +171,22 @@ main()
     });
   }
   console.log(`Accounting: ${acctTopics.length} topics seeded`);
+
+  // ── Commerce Subjects ──────────────────────────────────
+  const bizTopics = [
+    { subjectCode: "BIZ_STUD", grade: 10, topicName: "Business Sectors and Stakeholders", topicIndex: 1, examWeight: 1.0, description: "Primary, secondary, tertiary sectors, stakeholders" },
+    { subjectCode: "BIZ_STUD", grade: 11, topicName: "Entrepreneurship and Business Roles", topicIndex: 1, examWeight: 1.5, description: "Qualities of entrepreneurs, business planning" },
+    { subjectCode: "BIZ_STUD", grade: 12, topicName: "Business Operations", topicIndex: 1, examWeight: 2.0, description: "Production, quality, stock, purchasing, sales" },
+  ];
+  const econTopics = [
+    { subjectCode: "ECON", grade: 10, topicName: "Scarcity and Choice", topicIndex: 1, examWeight: 1.0, description: "Opportunity cost, production possibilities" },
+    { subjectCode: "ECON", grade: 11, topicName: "Demand and Supply", topicIndex: 1, examWeight: 2.0, description: "Market equilibrium, elasticity, government intervention" },
+    { subjectCode: "ECON", grade: 12, topicName: "Macroeconomics", topicIndex: 1, examWeight: 2.5, description: "GDP, inflation, unemployment, fiscal and monetary policy" },
+  ];
+  for (const topic of [...bizTopics, ...econTopics]) {
+    await prisma.curriculumTopic.upsert({
+      where: { subjectCode_grade_topicName: { subjectCode: topic.subjectCode, grade: topic.grade, topicName: topic.topicName } },
+      update: {}, create: topic,
+    });
+  }
+  console.log(`Commerce: ${bizTopics.length + econTopics.length} topics seeded`);

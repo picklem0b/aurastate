@@ -130,3 +130,44 @@ main()
     });
   }
   console.log(`Physical Sciences: ${phySciTopics.length} topics seeded`);
+
+  // ── Life Sciences Topics ──────────────────────────────
+  const lifeSciTopics = [
+    { subjectCode: "LIFE_SCI", grade: 10, topicName: "Life at the Molecular, Cellular and Tissue Level", topicIndex: 1, examWeight: 1.5, description: "Cell structure, organelles, cell division, tissues" },
+    { subjectCode: "LIFE_SCI", grade: 10, topicName: "From Molecules to Organisms: Structures and Life Processes", topicIndex: 2, examWeight: 1.5, description: "Nutrition, gas exchange, transport in plants and animals" },
+    { subjectCode: "LIFE_SCI", grade: 10, topicName: "Biodiversity and the Succession of Ecosystems", topicIndex: 3, examWeight: 1.0, description: "Classification, biodiversity, ecosystem succession" },
+    { subjectCode: "LIFE_SCI", grade: 11, topicName: "Molecular Basis of Heredity", topicIndex: 1, examWeight: 2.0, description: "DNA, RNA, protein synthesis, genetic inheritance" },
+    { subjectCode: "LIFE_SCI", grade: 11, topicName: "Evolution and Human Impact", topicIndex: 2, examWeight: 1.5, description: "Evidence for evolution, human evolution, environmental impact" },
+    { subjectCode: "LIFE_SCI", grade: 12, topicName: "Nervous System", topicIndex: 1, examWeight: 2.0, description: "Neurons, reflex arcs, brain structure, synapses" },
+    { subjectCode: "LIFE_SCI", grade: 12, topicName: "Endocrine System", topicIndex: 2, examWeight: 1.5, description: "Hormones, feedback mechanisms, homeostasis" },
+    { subjectCode: "LIFE_SCI", grade: 12, topicName: "Reproduction", topicIndex: 3, examWeight: 1.5, description: "Human reproduction, reproductive strategies" },
+    { subjectCode: "LIFE_SCI", grade: 12, topicName: "Responding to the Environment", topicIndex: 4, examWeight: 1.5, description: "Immune system, behaviour, ecology" },
+  ];
+  for (const topic of lifeSciTopics) {
+    await prisma.curriculumTopic.upsert({
+      where: { subjectCode_grade_topicName: { subjectCode: topic.subjectCode, grade: topic.grade, topicName: topic.topicName } },
+      update: {}, create: topic,
+    });
+  }
+  console.log(`Life Sciences: ${lifeSciTopics.length} topics seeded`);
+
+  // ── Accounting Topics ──────────────────────────────────
+  const acctTopics = [
+    { subjectCode: "ACCT", grade: 10, topicName: "Introduction to Financial Accounting", topicIndex: 1, examWeight: 1.5, description: "Accounting principles, source documents, journals" },
+    { subjectCode: "ACCT", grade: 10, topicName: "Ledgers and Trial Balance", topicIndex: 2, examWeight: 1.5, description: "General ledger, subsidiary ledgers, trial balance" },
+    { subjectCode: "ACCT", grade: 10, topicName: "Bank Reconciliation", topicIndex: 3, examWeight: 1.0, description: "Bank statement reconciliation, adjustments" },
+    { subjectCode: "ACCT", grade: 10, topicName: "Cash Transactions and Petty Cash", topicIndex: 4, examWeight: 1.0, description: "Cash journals, petty cash system" },
+    { subjectCode: "ACCT", grade: 11, topicName: "Inventory", topicIndex: 1, examWeight: 1.5, description: "Inventory valuation, stocktaking, adjustments" },
+    { subjectCode: "ACCT", grade: 11, topicName: "Fixed Assets", topicIndex: 2, examWeight: 1.5, description: "Depreciation methods, asset disposal" },
+    { subjectCode: "ACCT", grade: 11, topicName: "Control Accounts", topicIndex: 3, examWeight: 1.5, description: "Debtors and creditors control, reconciliation" },
+    { subjectCode: "ACCT", grade: 12, topicName: "Financial Statements", topicIndex: 1, examWeight: 2.5, description: "Income statement, balance sheet, notes" },
+    { subjectCode: "ACCT", grade: 12, topicName: "Cash Flow Statement", topicIndex: 2, examWeight: 2.0, description: "Operating, investing, financing activities" },
+    { subjectCode: "ACCT", grade: 12, topicName: "Analysis and Interpretation", topicIndex: 3, examWeight: 1.5, description: "Ratios, trend analysis, interpretation" },
+  ];
+  for (const topic of acctTopics) {
+    await prisma.curriculumTopic.upsert({
+      where: { subjectCode_grade_topicName: { subjectCode: topic.subjectCode, grade: topic.grade, topicName: topic.topicName } },
+      update: {}, create: topic,
+    });
+  }
+  console.log(`Accounting: ${acctTopics.length} topics seeded`);

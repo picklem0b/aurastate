@@ -207,3 +207,53 @@ main()
     });
   }
   console.log(`Languages: ${langTopics.length} topics seeded`);
+
+  // ── Geography Topics ───────────────────────────────────
+  const geogTopics = [
+    { subjectCode: "GEOG", grade: 10, topicName: "The hydrosphere", topicIndex: 1, examWeight: 1.5, description: "Water cycle, rivers, ocean currents" },
+    { subjectCode: "GEOG", grade: 11, topicName: "Plate Tectonics", topicIndex: 1, examWeight: 1.5, description: "Earth's structure, plate boundaries, earthquakes" },
+    { subjectCode: "GEOG", grade: 12, topicName: "Climate and Weather", topicIndex: 1, examWeight: 2.0, description: "Climate zones, weather systems, climate change" },
+  ];
+
+  // ── History Topics ─────────────────────────────────────
+  const histTopics = [
+    { subjectCode: "HIST", grade: 10, topicName: "The Cold War", topicIndex: 1, examWeight: 1.5, description: "Origins, key events, end of Cold War" },
+    { subjectCode: "HIST", grade: 11, topicName: "Apartheid South Africa", topicIndex: 1, examWeight: 2.0, description: "Apartheid legislation, resistance, transition" },
+    { subjectCode: "HIST", grade: 12, topicName: "Post-Apartheid South Africa", topicIndex: 1, examWeight: 2.0, description: "Democracy, reconciliation, challenges" },
+  ];
+
+  // ── Life Orientation Topics ────────────────────────────
+  const loTopics = [
+    { subjectCode: "LIFE_ORI", grade: 10, topicName: "Development of the Self", topicIndex: 1, examWeight: 1.0, description: "Self-concept, identity, personal growth" },
+    { subjectCode: "LIFE_ORI", grade: 11, topicName: "Health and Well-being", topicIndex: 1, examWeight: 1.0, description: "Physical health, mental health, substance abuse" },
+    { subjectCode: "LIFE_ORI", grade: 12, topicName: "Career Planning", topicIndex: 1, examWeight: 1.5, description: "Career choices, study options, workplace readiness" },
+  ];
+
+  for (const topic of [...geogTopics, ...histTopics, ...loTopics]) {
+    await prisma.curriculumTopic.upsert({
+      where: { subjectCode_grade_topicName: { subjectCode: topic.subjectCode, grade: topic.grade, topicName: topic.topicName } },
+      update: {}, create: topic,
+    });
+  }
+  console.log(`Humanities + LO: ${geogTopics.length + histTopics.length + loTopics.length} topics seeded`);
+
+  // ── Study Materials (sample) ───────────────────────────
+  const sampleMaterial = await prisma.studyMaterial.upsert({
+    where: { id: "material_math_10_algebra" },
+    update: {},
+    create: {
+      id: "material_math_10_algebra",
+      topicId: "Algebra", // Will be linked properly after topics are created
+      title: "Algebraic Expressions - Grade 10",
+      summary: "Simplifying and factorizing algebraic expressions using laws of operations.",
+      formulas: JSON.stringify(["a(b + c) = ab + ac", "(a + b)(a - b) = a² - b²", "(a + b)² = a² + 2ab + b²"]),
+      examples: JSON.stringify(["Simplify: 3x + 5x = 8x", "Factorize: x² - 9 = (x+3)(x-3)"]),
+      examTips: JSON.stringify(["Always check if expression can be simplified further", "Look for common factors first"]),
+      difficultyRating: 2.5,
+      pastPaperLinks: JSON.stringify([
+        { year: 2023, examType: "november", url: "https://www.education.gov.za/Curriculum/November2023MathP1.pdf" },
+        { year: 2023, examType: "june", url: "https://www.education.gov.za/Curriculum/June2023MathP1.pdf" },
+      ]),
+    },
+  });
+  console.log(`Sample study material created: ${sampleMaterial.title}`);

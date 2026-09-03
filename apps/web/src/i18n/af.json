@@ -1,0 +1,66 @@
+{
+  "nav": {
+    "calendar": "Chronos",
+    "vault": "Die Kluis",
+    "focus": "Pulse Fokus",
+    "rooms": "Oorlogskamers",
+    "settings": "Instellings"
+  },
+  "dashboard": {
+    "welcome": "Welkom terug",
+    "streak": "Daarreek",
+    "xp": "Ervaring",
+    "level": "Vlak",
+    "mastery": "Vetheid"
+  },
+  "calendar": {
+    "title": "Chronos",
+    "subtitle": "Jou voorspellende studiekalender",
+    "today": "Vandag",
+    "tomorrow": "Môre",
+    "reviewSprint": "Herision Sprint",
+    "studyBlock": "Studietyd"
+  },
+  "focus": {
+    "title": "Pulse Fokus",
+    "subtitle": "Jou aura is op die spel",
+    "start": "Begin Sessie",
+    "end": "Eindig Sessie",
+    "meltdown": "INEENSTORTING",
+    "returnIn": "KEER TERUG IN",
+    "orLoseXp": "OF VERLOOR XP",
+    "voided": "SESSIE GEHEEL"
+  },
+  "education": {
+    "title": "Die Kluis",
+    "subtitle": "Jou kurrikulum. Jou tempo.",
+    "topics": "Onderwerpe",
+    "flashcards": "Flitskaarte",
+    "quiz": "Toets",
+    "socratic": "Sokratiese Onderhoud"
+  },
+  "social": {
+    "title": "Oorlogskamers",
+    "subtitle": "Studeer saam. Wen saam",
+    "createRoom": "Skep Kamer",
+    "sendMessage": "Stuur boodskap..."
+  },
+  "onboarding": {
+    "title": "Instelling",
+    "card": "Kaart",
+    "of": "van",
+    "continue": "Gaan Voort",
+    "region": {
+      "title": "Waar studeer jy?",
+      "subtitle": "Dit sluit jou kurrikulum af by die korrekte standaarde"
+    }
+  },
+  "common": {
+    "loading": "Laai...",
+    "error": "Iets het verkeerd gegaan",
+    "save": "Stoor",
+    "cancel": "Kanselleer",
+    "delete": "Verwyder",
+    "edit": "Redigeer"
+  }
+}

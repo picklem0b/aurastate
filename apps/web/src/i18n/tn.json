@@ -1,0 +1,66 @@
+{
+  "nav": {
+    "calendar": "Chronos",
+    "vault": "The Vault",
+    "focus": "Pulse Focus",
+    "rooms": "War Rooms",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "streak": "Day streak",
+    "xp": "Experience",
+    "level": "Level",
+    "mastery": "Mastery"
+  },
+  "calendar": {
+    "title": "Chronos",
+    "subtitle": "Your predictive study calendar",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "reviewSprint": "Review Sprint",
+    "studyBlock": "Study Block"
+  },
+  "focus": {
+    "title": "Pulse Focus",
+    "subtitle": "Your aura is at stake",
+    "start": "Start Session",
+    "end": "End Session",
+    "meltdown": "MELTDOWN",
+    "returnIn": "RETURN IN",
+    "orLoseXp": "OR LOSE XP",
+    "voided": "SESSION VOIDED"
+  },
+  "education": {
+    "title": "The Vault",
+    "subtitle": "Your curriculum. Your pace.",
+    "topics": "Topics",
+    "flashcards": "Flashcards",
+    "quiz": "Quiz",
+    "socratic": "Socratic Interview"
+  },
+  "social": {
+    "title": "War Rooms",
+    "subtitle": "Study together. Win together",
+    "createRoom": "Create Room",
+    "sendMessage": "Send message..."
+  },
+  "onboarding": {
+    "title": "Setup",
+    "card": "Card",
+    "of": "of",
+    "continue": "Continue",
+    "region": {
+      "title": "Where are you studying?",
+      "subtitle": "This locks your curriculum to the correct standards"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit"
+  }
+}

@@ -190,3 +190,20 @@ main()
     });
   }
   console.log(`Commerce: ${bizTopics.length + econTopics.length} topics seeded`);
+
+  // ── Language Subjects ──────────────────────────────────
+  const langTopics = [
+    { subjectCode: "ENG_HL", grade: 10, topicName: "Comprehension and Language Use", topicIndex: 1, examWeight: 1.5, description: "Reading comprehension, language structures" },
+    { subjectCode: "ENG_HL", grade: 11, topicName: "Essay Writing and Analysis", topicIndex: 1, examWeight: 2.0, description: "Narrative, descriptive, discursive essays" },
+    { subjectCode: "ENG_HL", grade: 12, topicName: "Visual and Media Literacy", topicIndex: 1, examWeight: 1.5, description: "Analysing visual texts, media texts" },
+    { subjectCode: "AFRI_FAL", grade: 10, topicName: "Leesbegrip en Taalgebruik", topicIndex: 1, examWeight: 1.5, description: "Reading comprehension, language structures" },
+    { subjectCode: "AFRI_FAL", grade: 11, topicName: "Opstel Skryf en Analise", topicIndex: 1, examWeight: 2.0, description: "Essay writing, text analysis" },
+    { subjectCode: "AFRI_FAL", grade: 12, topicName: "Visuele en Medialiteratuur", topicIndex: 1, examWeight: 1.5, description: "Analysing visual and media texts" },
+  ];
+  for (const topic of langTopics) {
+    await prisma.curriculumTopic.upsert({
+      where: { subjectCode_grade_topicName: { subjectCode: topic.subjectCode, grade: topic.grade, topicName: topic.topicName } },
+      update: {}, create: topic,
+    });
+  }
+  console.log(`Languages: ${langTopics.length} topics seeded`);

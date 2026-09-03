@@ -96,3 +96,37 @@ main()
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
+
+  // ── Physical Sciences Topics ──────────────────────────
+  const phySciTopics = [
+    // Grade 10
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Matter and Classification", topicIndex: 1, examWeight: 1.0, description: "States of matter, classification of matter, mixtures and pure substances" },
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Mechanics: Motion in One Dimension", topicIndex: 2, examWeight: 1.5, description: "Distance, displacement, velocity, acceleration, equations of motion" },
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Mechanics: Forces", topicIndex: 3, examWeight: 1.5, description: "Newton's laws, friction, resultant forces, free body diagrams" },
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Energy and Energy Transfer", topicIndex: 4, examWeight: 1.5, description: "Kinetic and potential energy, work, power, conservation of energy" },
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Matter and Materials", topicIndex: 5, examWeight: 1.0, description: "Physical properties of materials, density, solids and liquids" },
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Waves and Sound", topicIndex: 6, examWeight: 1.0, description: "Properties of waves, sound waves, electromagnetic radiation" },
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Electric Circuits", topicIndex: 7, examWeight: 1.5, description: "Current, voltage, resistance, Ohm's law, series and parallel circuits" },
+    { subjectCode: "PHY_SCI", grade: 10, topicName: "Chemical Changes", topicIndex: 8, examWeight: 1.0, description: "Physical and chemical changes, mixtures, separation techniques" },
+    // Grade 11
+    { subjectCode: "PHY_SCI", grade: 11, topicName: "Mechanics: Momentum and Impulse", topicIndex: 1, examWeight: 1.5, description: "Momentum, impulse, conservation of momentum, collisions" },
+    { subjectCode: "PHY_SCI", grade: 11, topicName: "Mechanics: Newton's Laws", topicIndex: 2, examWeight: 1.5, description: "Newton's laws in detail, inclined planes, connected bodies" },
+    { subjectCode: "PHY_SCI", grade: 11, topicName: "Work, Energy and Power", topicIndex: 3, examWeight: 1.5, description: "Work-energy theorem, potential energy, power calculations" },
+    { subjectCode: "PHY_SCI", grade: 11, topicName: "Magnetism", topicIndex: 4, examWeight: 1.0, description: "Magnetic fields, electromagnetism, Faraday's law" },
+    { subjectCode: "PHY_SCI", grade: 11, topicName: "Mechanical Waves and Sound", topicIndex: 5, examWeight: 1.0, description: "Transverse and longitudinal waves, Doppler effect, standing waves" },
+    { subjectCode: "PHY_SCI", grade: 11, topicName: "Electric Circuits and Electromagnetism", topicIndex: 6, examWeight: 1.5, description: "AC and DC circuits, transformers, generators" },
+    // Grade 12
+    { subjectCode: "PHY_SCI", grade: 12, topicName: "Vertical Projectile Motion", topicIndex: 1, examWeight: 1.5, description: "Free fall, equations of motion, graphs" },
+    { subjectCode: "PHY_SCI", grade: 12, topicName: "Momentum and Impulse", topicIndex: 2, examWeight: 1.5, description: "Impulse-momentum theorem, 2D collisions" },
+    { subjectCode: "PHY_SCI", grade: 12, topicName: "Energy and Energy Change", topicIndex: 3, examWeight: 1.5, description: "Conservation of energy, dissipation, efficiency" },
+    { subjectCode: "PHY_SCI", grade: 12, topicName: "Electric Circuits", topicIndex: 4, examWeight: 2.0, description: "Internal resistance, Kirchhoff's laws, network analysis" },
+    { subjectCode: "PHY_SCI", grade: 12, topicName: "Electromagnetism", topicIndex: 5, examWeight: 1.5, description: "Electromagnetic induction, Faraday's law, Lenz's law" },
+  ];
+  for (const topic of phySciTopics) {
+    await prisma.curriculumTopic.upsert({
+      where: { subjectCode_grade_topicName: { subjectCode: topic.subjectCode, grade: topic.grade, topicName: topic.topicName } },
+      update: {},
+      create: topic,
+    });
+  }
+  console.log(`Physical Sciences: ${phySciTopics.length} topics seeded`);

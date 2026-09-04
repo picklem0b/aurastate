@@ -1,7 +1,8 @@
-import { Context, Next } from "hono";
+import type { Context, Next } from "hono";
 import { verifyToken } from "../lib/clerk.js";
+import type { AppEnv } from "../types.js";
 
-export async function authMiddleware(c: Context, next: Next) {
+export async function authMiddleware(c: Context<AppEnv>, next: Next) {
   const authHeader = c.req.header("Authorization");
 
   if (!authHeader?.startsWith("Bearer ")) {
@@ -15,8 +16,8 @@ export async function authMiddleware(c: Context, next: Next) {
     return c.json({ error: "Invalid or expired token" }, 401);
   }
 
-  c.set("userId", verified.sub);
-  c.set("sessionId", verified.sid);
+  c.set("userId", verified.sub as string);
+  c.set("sessionId", verified.sid as string);
 
   await next();
 }

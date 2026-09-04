@@ -3,7 +3,7 @@
   "version": "1.0.0-alpha",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@aurastate/shared": "workspace:*",
-    "@aurastate/database": "workspace:*",
     "@aurastate/ui": "workspace:*",
     "next": "^15.0.0",
     "react": "^19.0.0",

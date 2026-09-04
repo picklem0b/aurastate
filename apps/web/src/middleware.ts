@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
   "/login(.*)",
@@ -10,9 +11,7 @@ export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
     const { userId } = await auth();
     if (!userId) {
-      // Redirect unauthenticated users to login
-      const url = new URL("/login", req.url);
-      return Response.redirect(url);
+      return NextResponse.redirect(new URL("/login", req.url));
     }
   }
 });

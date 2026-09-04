@@ -1,11 +1,12 @@
 import { Hono } from "hono";
 import { prisma } from "../lib/prisma.js";
 import { authMiddleware } from "../middleware/auth.js";
+import type { AppEnv } from "../types.js";
 
-const auth = new Hono();
+const auth = new Hono<AppEnv>();
 
 auth.get("/me", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
 
   const user = await prisma.user.findUnique({
     where: { clerkId: userId },
@@ -19,7 +20,7 @@ auth.get("/me", authMiddleware, async (c) => {
 });
 
 auth.post("/sync", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
   const body = await c.req.json();
 
   const user = await prisma.user.upsert({

@@ -2,11 +2,12 @@ import { Hono } from "hono";
 import { prisma } from "../lib/prisma.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { FocusSessionStartSchema, FocusSessionEndSchema } from "@aurastate/shared";
+import type { AppEnv } from "../types.js";
 
-const focus = new Hono();
+const focus = new Hono<AppEnv>();
 
 focus.post("/session/start", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
   const body = await c.req.json();
   const data = FocusSessionStartSchema.parse(body);
 
@@ -26,7 +27,7 @@ focus.post("/session/start", authMiddleware, async (c) => {
 });
 
 focus.post("/session/end", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
   const body = await c.req.json();
   const data = FocusSessionEndSchema.parse(body);
 
@@ -80,7 +81,7 @@ focus.post("/session/end", authMiddleware, async (c) => {
 });
 
 focus.get("/sessions", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
 
   const sessions = await prisma.focusSession.findMany({
     where: { userId },

@@ -3,8 +3,9 @@ import { prisma } from "../lib/prisma.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { OnboardingSchema } from "@aurastate/shared";
 import { REGIONS } from "@aurastate/shared";
+import type { AppEnv } from "../types.js";
 
-const onboarding = new Hono();
+const onboarding = new Hono<AppEnv>();
 
 onboarding.get("/region/:regionCode", async (c) => {
   const regionCode = c.req.param("regionCode");
@@ -18,7 +19,7 @@ onboarding.get("/region/:regionCode", async (c) => {
 });
 
 onboarding.post("/complete", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
   const body = await c.req.json();
   const data = OnboardingSchema.parse(body);
 

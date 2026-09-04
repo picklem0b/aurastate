@@ -2,8 +2,9 @@ import { Hono } from "hono";
 import { prisma } from "../lib/prisma.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { WarRoomCreateSchema, MessageSendSchema } from "@aurastate/shared";
+import type { AppEnv } from "../types.js";
 
-const social = new Hono();
+const social = new Hono<AppEnv>();
 
 social.get("/rooms", authMiddleware, async (c) => {
   const rooms = await prisma.warRoom.findMany({
@@ -33,7 +34,8 @@ social.post("/rooms", authMiddleware, async (c) => {
 
 social.get("/rooms/:roomId/messages", authMiddleware, async (c) => {
   const roomId = c.req.param("roomId");
-  const limit = parseInt(c.req.query("limit") ?? "50");
+  const limitParam = c.req.query("limit");
+  const limit = parseInt(limitParam ?? "50");
 
   const messages = await prisma.warRoomMessage.findMany({
     where: { roomId, deleted: false },
@@ -46,7 +48,7 @@ social.get("/rooms/:roomId/messages", authMiddleware, async (c) => {
 
 social.post("/rooms/:roomId/messages", authMiddleware, async (c) => {
   const roomId = c.req.param("roomId");
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
   const body = await c.req.json();
   const data = MessageSendSchema.parse({ ...body, roomId });
 

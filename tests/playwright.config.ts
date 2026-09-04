@@ -17,7 +17,7 @@ export default defineConfig({
     { name: "Mobile Safari", use: { ...devices["iPhone 14"] } },
   ],
   webServer: {
-    command: "cd apps/web && npm run dev",
+    command: "pnpm dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },

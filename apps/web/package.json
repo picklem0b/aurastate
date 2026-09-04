@@ -9,9 +9,13 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "test:unit": "vitest run",
-    "test:unit:watch": "vitest"
+    "test:unit:watch": "vitest",
+    "clean": "rm -rf .next node_modules"
   },
   "dependencies": {
+    "@aurastate/shared": "workspace:*",
+    "@aurastate/database": "workspace:*",
+    "@aurastate/ui": "workspace:*",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

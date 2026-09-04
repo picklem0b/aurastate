@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SUBJECTS, REGIONS, GRADES, UI_LANGUAGES } from "./constants";
+import { SUBJECTS, REGIONS, GRADES, UI_LANGUAGES } from "./constants.js";
 
 // ─── Onboarding ──────────────────────────────────────────
 export const OnboardingSchema = z.object({

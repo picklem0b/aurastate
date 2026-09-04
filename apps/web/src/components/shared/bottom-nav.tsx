@@ -6,19 +6,23 @@ import {
   CalendarDays,
   BookOpen,
   Users,
-  Timer,
   Settings2,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SolarIcon } from "@/components/branding/solar-icon";
 
-const NAV_ITEMS = [
+type NavItem =
+  | { href: string; label: string; Icon: LucideIcon; isBrand?: false }
+  | { href: string; label: string; Icon: null; isBrand: true };
+
+const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard/calendar", label: "Chronos", Icon: CalendarDays },
   { href: "/dashboard/education", label: "Vault",   Icon: BookOpen },
   { href: "/dashboard",          label: "",         Icon: null, isBrand: true },
   { href: "/dashboard/social",   label: "Rooms",    Icon: Users },
   { href: "/dashboard/settings", label: "Config",   Icon: Settings2 },
-] as const;
+];
 
 /**
  * AuraState Bottom Navigation

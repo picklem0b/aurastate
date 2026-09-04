@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4001";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4002";
 
 interface RequestOptions extends RequestInit {
   token?: string;

@@ -42,7 +42,7 @@ app.route("/mastery", mastery);
 app.route("/social", social);
 
 // ── Start ────────────────────────────────────────────────
-const port = parseInt(process.env.PORT ?? "4001");
+const port = parseInt(process.env.PORT ?? "4002");
 
 serve({ fetch: app.fetch, port }, (info) => {
   console.log(`AuraState Services running on http://localhost:${info.port}`);

@@ -1,15 +1,21 @@
-import { Clerk } from "@clerk/backend";
+import { verifyToken as clerkVerifyToken } from "@clerk/backend";
 
-const clerk = new Clerk({
-  secretKey: process.env.CLERK_SECRET_KEY,
-});
+/** Shape of a verified Clerk JWT payload (subset we use) */
+export interface VerifiedToken {
+  sub: string;
+  sid: string;
+  [key: string]: unknown;
+}
 
-export { clerk };
-
-export async function verifyToken(token: string) {
+export async function verifyToken(token: string): Promise<VerifiedToken | null> {
   try {
-    const verified = await clerk.verifyToken(token);
-    return verified;
+    const result = await clerkVerifyToken(token, {
+      secretKey: process.env.CLERK_SECRET_KEY,
+    });
+    if (result.data) {
+      return result.data as VerifiedToken;
+    }
+    return null;
   } catch {
     return null;
   }

@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+
+export const dynamic = "force-dynamic";
 import { Toaster } from "sonner";
 import "@/lib/globals.css";
 

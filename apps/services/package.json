@@ -13,11 +13,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@aurastate/shared": "workspace:*",
     "@aurastate/database": "workspace:*",
-    "hono": "^4.4.0",
+    "@aurastate/shared": "workspace:*",
+    "@clerk/backend": "^3.17.1",
     "@hono/node-server": "^1.11.0",
-    "@clerk/backend": "^1.0.0",
+    "hono": "^4.4.0",
     "ioredis": "^5.4.0",
     "zod": "^3.23.0"
   },

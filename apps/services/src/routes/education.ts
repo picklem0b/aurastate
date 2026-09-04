@@ -3,8 +3,9 @@ import { prisma } from "../lib/prisma.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { SocraticRequestSchema } from "@aurastate/shared";
 import { chatCompletion } from "../lib/ai.js";
+import type { AppEnv } from "../types.js";
 
-const education = new Hono();
+const education = new Hono<AppEnv>();
 
 education.post("/socratic/respond", authMiddleware, async (c) => {
   const body = await c.req.json();
@@ -36,7 +37,8 @@ education.post("/socratic/respond", authMiddleware, async (c) => {
 
 education.get("/topics/:subjectCode/:grade", authMiddleware, async (c) => {
   const subjectCode = c.req.param("subjectCode");
-  const grade = parseInt(c.req.param("grade"));
+  const gradeParam = c.req.param("grade");
+  const grade = parseInt(gradeParam ?? "10");
 
   const topics = await prisma.curriculumTopic.findMany({
     where: { subjectCode, grade },

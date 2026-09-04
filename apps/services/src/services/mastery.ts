@@ -24,7 +24,7 @@ export function buildMasteryTree(
 
     const nodes: ConceptNode[] = concepts.map((concept) => {
       const isWeak = weakPoints.some(
-        (wp) => wp.toLowerCase() in concept.toLowerCase() || concept.toLowerCase().includes(wp.toLowerCase())
+        (wp) => concept.toLowerCase().includes(wp.toLowerCase()) || wp.toLowerCase().includes(concept.toLowerCase())
       );
 
       return {

@@ -2,11 +2,12 @@ import { Hono } from "hono";
 import { prisma } from "../lib/prisma.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { MasteryUpdateSchema } from "@aurastate/shared";
+import type { AppEnv } from "../types.js";
 
-const mastery = new Hono();
+const mastery = new Hono<AppEnv>();
 
 mastery.get("/tree", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
 
   const subjects = await prisma.userSubject.findMany({
     where: { userId },
@@ -32,7 +33,7 @@ mastery.get("/tree", authMiddleware, async (c) => {
 });
 
 mastery.post("/update", authMiddleware, async (c) => {
-  const userId = c.get("userId") as string;
+  const userId = c.get("userId");
   const body = await c.req.json();
   const data = MasteryUpdateSchema.parse(body);
 
@@ -56,18 +57,26 @@ mastery.post("/update", authMiddleware, async (c) => {
   // Check if concept should be flagged as weak
   const MASTERY_THRESHOLD = 34.85;
   if (updatedPct < MASTERY_THRESHOLD) {
-    await prisma.weakPoint.upsert({
-      where: {
-        id: `wp_${userId}_${data.subject}_${data.concept}`,
-      },
-      update: { masteryPct: updatedPct },
-      create: {
-        userId,
-        subject: data.subject,
-        concept: data.concept,
-        masteryPct: updatedPct,
-      },
+    // Find existing weak point or create new one
+    const existing = await prisma.weakPoint.findFirst({
+      where: { userId, subject: data.subject, concept: data.concept },
     });
+
+    if (existing) {
+      await prisma.weakPoint.update({
+        where: { id: existing.id },
+        data: { masteryPct: updatedPct },
+      });
+    } else {
+      await prisma.weakPoint.create({
+        data: {
+          userId,
+          subject: data.subject,
+          concept: data.concept,
+          masteryPct: updatedPct,
+        },
+      });
+    }
   } else {
     // Resolve weak point if above threshold
     await prisma.weakPoint

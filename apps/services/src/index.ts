@@ -19,7 +19,7 @@ app.use("*", logger());
 app.use(
   "*",
   cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(",") ?? ["http://localhost:3000"],
+    origin: process.env.ALLOWED_ORIGINS?.split(",") ?? ["http://localhost:3001"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -42,7 +42,7 @@ app.route("/mastery", mastery);
 app.route("/social", social);
 
 // ── Start ────────────────────────────────────────────────
-const port = parseInt(process.env.PORT ?? "4000");
+const port = parseInt(process.env.PORT ?? "4001");
 
 serve({ fetch: app.fetch, port }, (info) => {
   console.log(`AuraState Services running on http://localhost:${info.port}`);
